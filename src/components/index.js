@@ -12,7 +12,7 @@ import Contact from "./Contact";
 export {
   Hero,
   Navbar,
-  // About,
+  About,
   Tech,
   Experience,
   Works,
