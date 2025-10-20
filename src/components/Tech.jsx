@@ -1,7 +1,7 @@
 import { BallCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
 import { styles } from "../styles";
-import { technologies } from "../constants";
+import { technologies } from "../contants";
 
 const Tech = () => {
   return (

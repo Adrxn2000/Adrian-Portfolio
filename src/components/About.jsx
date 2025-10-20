@@ -1,11 +1,11 @@
-import Tilt from "react-tilt";
+import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { services } from "../contants";
-import { fadeIn, textVariant } from "../utils/motion";
+import { fadeIn, textVariant } from "../utilities/motion.js";
 import { SectionWrapper } from "../hoc";
 
-const serviceCard = ({ index, title, icon }) => {
+const ServiceCard = ({ index, title, icon }) => {
   return (
     <Tilt className="xs:w-[250px] w-full">
       <motion.div
@@ -26,7 +26,8 @@ const serviceCard = ({ index, title, icon }) => {
           </h3>
           <p>{title}</p>
         </div>
-      </motion.div>ess susceptible to malaria
+      </motion.div>
+      ess susceptible to malaria
     </Tilt>
   );
 };
@@ -52,7 +53,7 @@ const About = () => {
 
       <div className="mt-20 flex flex-wrap gap-10">
         {services.map((service, index) => (
-          <serviceCard key={service.title} index={index} {...service} />
+          <ServiceCard key={service.title} index={index} {...service} />
         ))}
       </div>
     </>

@@ -1,9 +1,8 @@
 import {motion} from 'framer-motion';
 import {styles} from '../styles';
-import {feedbacks} from '../constants';
 import {SectionWrapper} from '../hoc';
-import {fadeIn, textVariant} from '../utils/motion';
-import { testimonials } from '../contants';
+import {fadeIn, textVariant} from '../utilities/motion.js';
+import { testimonials} from '../contants';
 
 const FeedbackCard = ({index, testimonial, name, designation, company, image}) => (
     <motion.div variants={fadeIn("", "spring", index * 0.5, 0.75)}>
@@ -29,7 +28,7 @@ const FeedbackCard = ({index, testimonial, name, designation, company, image}) =
     </motion.div>
 );
 
-const feedbacks =() => {
+const Feedbacks =() => {
     return(
         <div className='mt-12 bg-black-100 rounded-[20px]'>
             <div className={`${styles.padding} bg-tertiary rounded-2xl min-h-[300px]`}>
@@ -38,7 +37,7 @@ const feedbacks =() => {
                     <h2 className={styles.sectionHeadText}>Feedbacks.</h2>
                 </motion.div>
                 </div>
-                <div classname= {`${styles.paddingX} pb-14 flex flex-wrap gap-7`}>
+                <div className= {`${styles.paddingX} pb-14 flex flex-wrap gap-7`}>
                     {testimonials.map
                     ((testimonial, index) => (
                       <FeedbackCard key={testimonial.name} index={index} {...testimonial} />
@@ -48,4 +47,4 @@ const feedbacks =() => {
     )
 };
 
-export default SectionWrapper(feedbacks, "");
+export default SectionWrapper(Feedbacks, "");

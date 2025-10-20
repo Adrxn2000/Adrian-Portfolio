@@ -5,7 +5,7 @@ import {motion} from 'framer-motion';
 import {styles} from '../styles';
 import {EarthCanvas} from './canvas';
 import {SectionWrapper} from '../hoc';
-import {slideIn} from '../utils/motion';
+import {slideIn} from '../utilities/motion.js';
 
 
 const Contact = () => {
@@ -59,7 +59,7 @@ const Contact = () => {
             </label>
             <label className="flex flex-col">
               <span className="text-white font-medium mb-4">Your Message</span>
-              <Textarea
+              <textarea
                 rows="7"
                 name="message"
                 value={form.message}
