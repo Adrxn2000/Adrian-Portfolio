@@ -7,20 +7,25 @@ import {
   Preload,
   useTexture,
 } from "@react-three/drei";
-
 import CanvasLoader from "../Loader";
 
-const Ball = (props) => {
-  const [decal] = useTexture([props.imgUrl]);
+// Single Ball
+const Ball = ({ imgUrl, position = [0, 0, 0], scale = 2.75 }) => {
+  const [decal] = useTexture([imgUrl]);
 
   return (
-    <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
+    <Float
+      speed={1.75}
+      rotationIntensity={1}
+      floatIntensity={2}
+      position={position}
+    >
       <ambientLight intensity={0.25} />
-      <directionalLight position={[0, 0, 0.05]}/>
-      <mesh castShadow receiveShadow scale={2.75}>
+      <directionalLight position={[0, 0, 0.05]} />
+      <mesh castShadow receiveShadow scale={scale}>
         <icosahedronGeometry args={[1, 1]} />
         <meshStandardMaterial
-          color='#fff8eb'
+          color="#fff8eb"
           polygonOffset
           polygonOffsetFactor={-5}
           flatShading
@@ -37,21 +42,29 @@ const Ball = (props) => {
   );
 };
 
-const BallCanvas = ({ icon }) => {
+// Canvas for all balls
+const BallsCanvas = ({ balls = [] }) => {
   return (
     <Canvas
-      frameloop='demand'
+      frameloop="demand"
       dpr={[1, 2]}
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls enableZoom={false} />
-        <Ball imgUrl={icon} />
+        {balls.map((ball, i) => (
+          <Ball
+            key={i}
+            imgUrl={ball.icon}
+            position={
+              ball.position || [(i % 5) * 3 - 6, Math.floor(i / 5) * 3 - 3, 0]
+            }
+          />
+        ))}
       </Suspense>
-
       <Preload all />
     </Canvas>
   );
 };
 
-export default BallCanvas
+export default BallsCanvas;
