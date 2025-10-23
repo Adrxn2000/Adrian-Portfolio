@@ -8,7 +8,7 @@ const Computers = ({ isMobile }) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
   return (
     <mesh>
-      <hemisphereLight intensity={6} groundColor="black" />
+      <hemisphereLight intensity={6} groundColor="white" />
       <pointLight intensity={6} />
       <spotLight
         position={[20]}

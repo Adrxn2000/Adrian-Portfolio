@@ -1,73 +1,62 @@
-import React, { Suspense, useMemo } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Decal,
   Float,
   OrbitControls,
-  Preload
+  Preload,
+  useTexture,
 } from "@react-three/drei";
 import CanvasLoader from "../Loader";
-import BallsScene from "../BallsScene";
 
-// Single Ball
-const Ball = ({ decal, position = [0, 0, 0], scale = 2.75 }) => {
- 
+const BallMesh = ({ imgUrl, scale = 1.5 }) => {
+  const [decal] = useTexture([imgUrl]);
+  const meshRef = useRef();
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.005;
+    }
+  });
 
   return (
-    <Float
-      speed={1.75}
-      rotationIntensity={1}
-      floatIntensity={2}
-      position={position}
-    >
+    <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
       <ambientLight intensity={0.25} />
       <directionalLight position={[0, 0, 0.05]} />
-      <mesh castShadow receiveShadow scale={scale}>
+      <mesh ref={meshRef} castShadow receiveShadow scale={scale}>
         <icosahedronGeometry args={[1, 1]} />
         <meshStandardMaterial
-          color="#fff8eb"
+          color="#e9e9e9ff"
           polygonOffset
           polygonOffsetFactor={-5}
           flatShading
         />
         <Decal
           position={[0, 0, 1]}
-          rotation={[2 * Math.PI, 0, 6.25]}
-          scale={1}
+          rotation={[0, 0, 0]}
+          scale={0.9}
           map={decal}
-          flatShading
         />
       </mesh>
     </Float>
   );
 };
 
-// Canvas for all balls
-const BallsCanvas = ({ balls = [] }) => {
-  const imageUrls = useMemo(() => balls.map((ball) => ball.icon), [balls]);
-  
-
+const BallCanvas = ({ imgUrl, scale = 1.5 }) => {
   return (
     <Canvas
-      frameloop="demand"
+      frameloop="always"
       dpr={[1, 2]}
       gl={{ preserveDrawingBuffer: true }}
+      camera={{ position: [0, 0, 5], fov: 45 }}
     >
-
       <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls enableZoom={false} />
-        {/* {balls.map((ball, i) => (
-          <Ball
-            key={i}
-            imgUrl={ball.icon}
-            position={
-              ball.position || [(i % 5) * 3 - 6, Math.floor(i / 5) * 3 - 3, 0]
-            } */}
-        <BallsScene balls={balls} />
+        <OrbitControls enableZoom={false} enablePan={false} />
+        <BallMesh imgUrl={imgUrl} scale={scale} />
+        <Preload all />
       </Suspense>
-      <Preload all />
     </Canvas>
   );
 };
 
-export default BallsCanvas;
+export default BallCanvas;
